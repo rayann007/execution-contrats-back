@@ -1,10 +1,14 @@
 package com.leoni.execution.contrats.Controllers;
 
 import com.leoni.execution.contrats.Models.Contrat;
+import com.leoni.execution.contrats.Models.StatutContrat;
+import com.leoni.execution.contrats.Models.TypeContrat;
 import com.leoni.execution.contrats.Services.ContratService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController // Indique que cette classe est un contrôleur REST (pas une vue HTML)
@@ -50,4 +54,66 @@ public class ContratController {
         // Supprime le contrat correspondant à l'ID
         contratService.deleteContrat(id);
     }
+
+    @GetMapping("/search")
+    public List<Contrat> searchContrats(@RequestParam String nom) {
+        return contratService.searchByNom(nom);
+    }
+
+    // ✅ Endpoint pour filtrer les contrats par dateDebut et/ou dateFin
+    @GetMapping("/filter-by-date")
+    public List<Contrat> filterByDate(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin) {
+
+        // ⚙️ Si les deux sont présents : filtrer entre deux dates
+        if (dateDebut != null && dateFin != null) {
+            return contratService.findByDateDebutAndDateFin(dateDebut, dateFin);
+        }
+        // ⚙️ Si seulement dateDebut est présent
+        else if (dateDebut != null) {
+            return contratService.findByDateDebutAfter(dateDebut);
+        }
+        // ⚙️ Si seulement dateFin est présent
+        else if (dateFin != null) {
+            return contratService.findByDateFinBefore(dateFin);
+        }
+        // 🔁 Sinon retourner tous les contrats
+        else {
+            return contratService.getAllContrats();
+        }
+    }
+
+    @GetMapping("/filter-by-type")
+    public List<Contrat> filterByType(@RequestParam TypeContrat type) {
+        return contratService.findByType(type);
+    }
+
+    @GetMapping("/filter-by-statut")
+    public List<Contrat> filterByStatut(@RequestParam StatutContrat statut) {
+        return contratService.findByStatut(statut);
+    }
+
+    // ✅ Filtrage par type, statut, date, nom
+    @GetMapping("/filtrer")
+    public List<Contrat> filtrerContrats(
+            @RequestParam(required = false) TypeContrat type,
+            @RequestParam(required = false) StatutContrat statut,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
+            @RequestParam(required = false) String nom
+    ) {
+        return contratService.filtrerContrats(type, statut, dateDebut, dateFin, nom);
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
