@@ -2,6 +2,9 @@ package com.leoni.execution.contrats.Models;
 
 import jakarta.persistence.*;
 
+import java.time.temporal.Temporal;
+import java.util.List;
+
 @Entity
 @Table(name = "contrattravaux")
 public class ContratTravaux {
@@ -40,4 +43,12 @@ public class ContratTravaux {
 
     public Contrat getContrat() { return contrat; }
     public void setContrat(Contrat contrat) { this.contrat = contrat; }
+
+    public Temporal getDateFin() {
+        return this.contrat.getDateFin();
+    }
+
+    public List<DelaiContractuel> getDelais() {
+        return this.contrat.getDelais();
+    }
 }

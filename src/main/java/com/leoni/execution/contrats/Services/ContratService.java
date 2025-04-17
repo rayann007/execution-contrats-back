@@ -28,5 +28,14 @@ public interface ContratService {
     // 🔎 Moteur de recherche global (par mot-clé)
     List<Contrat> filtrerContrats(TypeContrat type, StatutContrat statut, LocalDate dateDebut, LocalDate dateFin, String nom);
 
+    List<Contrat> getContratsActifsAujourdHui();
+    List<Contrat> getContratsEnAlerte();
+
+
+
+
+
+
+
 
 }

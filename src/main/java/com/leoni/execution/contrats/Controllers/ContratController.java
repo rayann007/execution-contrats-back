@@ -106,6 +106,15 @@ public class ContratController {
         return contratService.filtrerContrats(type, statut, dateDebut, dateFin, nom);
     }
 
+    @GetMapping("/actifs-aujourdhui")
+    public List<Contrat> getContratsActifsAujourdHui() {
+        return contratService.getContratsActifsAujourdHui();
+    }
+
+    @GetMapping("/alertes")
+    public List<Contrat> getContratsEnAlerte() {
+        return contratService.getContratsEnAlerte();
+    }
 
 }
 

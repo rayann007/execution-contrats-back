@@ -2,6 +2,8 @@ package com.leoni.execution.contrats.Models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 // Cette annotation indique que cette classe est une entité JPA
 @Entity
 // On peut indiquer explicitement le nom de la table en base
@@ -82,4 +84,17 @@ public class Contrat {
 
     public String getEmailsPersonnesDediees() { return emailsPersonnesDediees; }
     public void setEmailsPersonnesDediees(String emailsPersonnesDediees) { this.emailsPersonnesDediees = emailsPersonnesDediees; }
+    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL)
+    private List<DelaiContractuel> delais;
+
+    public List<DelaiContractuel> getDelais() {
+        return delais;
+    }
+
+    public void setDelais(List<DelaiContractuel> delais) {
+        this.delais = delais;
+    }
+
+
 }
+

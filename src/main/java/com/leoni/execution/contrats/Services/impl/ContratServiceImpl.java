@@ -1,8 +1,6 @@
 package com.leoni.execution.contrats.Services.impl;
 
-import com.leoni.execution.contrats.Models.Contrat;
-import com.leoni.execution.contrats.Models.StatutContrat;
-import com.leoni.execution.contrats.Models.TypeContrat;
+import com.leoni.execution.contrats.Models.*;
 import com.leoni.execution.contrats.Repositories.ContratRepository;
 import com.leoni.execution.contrats.Services.ContratService;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ContratServiceImpl implements ContratService {
@@ -19,9 +18,10 @@ public class ContratServiceImpl implements ContratService {
     @Autowired
     private ContratRepository contratRepository;
 
+
     @Override
     public List<Contrat> getAllContrats() {
-        return contratRepository.findAll();
+        return null;
     }
 
     @Override
@@ -97,6 +97,45 @@ public class ContratServiceImpl implements ContratService {
     }
 
 
+    @Override
+    public List<Contrat> getContratsActifsAujourdHui() {
+        return contratRepository.findContratsActifsAujourdHui(LocalDate.now());
+    }
+
+    @Override
+    public List<Contrat> getContratsEnAlerte() {
+        LocalDate today = LocalDate.now();
+        List<Contrat> alertes = new ArrayList<>();
+
+        for (Contrat c : contratRepository.findAll()) {
+            if (c.getType() == TypeContrat.Travaux) {
+                // Alerte si date de fin proche
+                if (c.getDateFin() != null && !c.getDateFin().isBefore(today) && c.getDateFin().isBefore(today.plusDays(7))) {
+                    alertes.add(c);
+                    continue;
+                }
+
+                // Alerte si un délai approche
+                List<DelaiContractuel> delais = c.getDelais(); // Assure-toi que le getter est bien fait
+                if (delais != null) {
+                    for (DelaiContractuel d : delais) {
+                        if (!d.getDate().isBefore(today) && d.getDate().isBefore(today.plusDays(7))) {
+                            alertes.add(c);
+                            break;
+                        }
+                    }
+                }
+
+            } else if (c.getType() == TypeContrat.Continu) {
+                // Alerte 2 mois avant la fin
+                if (c.getDateFin() != null && !c.getDateFin().isBefore(today) && c.getDateFin().isBefore(today.plusMonths(2))) {
+                    alertes.add(c);
+                }
+            }
+        }
+
+        return alertes;
+    }
 
 
 

@@ -43,6 +43,10 @@ public interface ContratRepository extends JpaRepository<Contrat, Long> {
             @Param("nom") String nom
     );
 
+    @Query("SELECT c FROM Contrat c WHERE c.dateDebut <= :today AND c.dateFin >= :today")
+    List<Contrat> findContratsActifsAujourdHui(@Param("today") LocalDate today);
+
+
 
 
 
