@@ -2,6 +2,8 @@ package com.leoni.execution.contrats.Services.impl;
 
 import com.leoni.execution.contrats.Models.*;
 import com.leoni.execution.contrats.Repositories.ContratRepository;
+import com.leoni.execution.contrats.Repositories.DocumentRepository;
+import com.leoni.execution.contrats.Services.ArchivageService;
 import com.leoni.execution.contrats.Services.ContratService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContratServiceImpl implements ContratService {
@@ -82,6 +85,7 @@ public class ContratServiceImpl implements ContratService {
         // 🔁 Récupère les contrats entre deux dates
         return contratRepository.findByDateDebutAfterAndDateFinBefore(dateDebut, dateFin);
     }
+
     @Override
     public List<Contrat> findByType(TypeContrat type) {
         return contratRepository.findByType(type);
@@ -91,6 +95,7 @@ public class ContratServiceImpl implements ContratService {
     public List<Contrat> findByStatut(StatutContrat statut) {
         return contratRepository.findByStatut(statut);
     }
+
     @Override
     public List<Contrat> filtrerContrats(TypeContrat type, StatutContrat statut, LocalDate dateDebut, LocalDate dateFin, String nom) {
         return contratRepository.filtrerContrats(type, statut, dateDebut, dateFin, nom);
@@ -137,15 +142,43 @@ public class ContratServiceImpl implements ContratService {
         return alertes;
     }
 
+    @Autowired
+    private DocumentRepository documentRepository;
+
+    @Autowired
+    private ArchivageService archivageService;
+
+    private void verifierEtArchiverContrat(Contrat contrat) {
+        if (contrat.getStatut().equals(StatutContrat.résilié) ||
+                contrat.getStatut().equals(StatutContrat.terminé)) {
+
+            List<Document> docs = documentRepository.findByContrat_Id(contrat.getId());
+            archivageService.archiverDocumentsContrat(docs);
+        }
 
 
+    }
+
+    @Override
+    public void resilierContratEtArchiver(Long id) {
+        Optional<Contrat> optionalContrat = contratRepository.findById(id);
+
+        if (optionalContrat.isPresent()) {
+            Contrat contrat = optionalContrat.get();
+
+            // Mise à jour du statut
+            contrat.setStatut(StatutContrat.résilié);
+            contratRepository.save(contrat);
+
+            // Récupération des documents
+            List<Document> docs = documentRepository.findByContrat_Id(id);
+
+            // Archivage
+            archivageService.archiverDocumentsContrat(docs);
+        } else {
+            throw new RuntimeException("Contrat avec ID " + id + " non trouvé.");
+        }
 
 
-
-
-
-
-
-
-
+    }
 }
