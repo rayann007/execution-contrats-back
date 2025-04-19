@@ -1,6 +1,7 @@
 package com.leoni.execution.contrats.Repositories;
 
 import com.leoni.execution.contrats.Models.Contrat;
+import com.leoni.execution.contrats.Models.Document;
 import com.leoni.execution.contrats.Models.StatutContrat;
 import com.leoni.execution.contrats.Models.TypeContrat;
 import org.springframework.data.jpa.repository.JpaRepository;
