@@ -32,4 +32,13 @@ public class ArchivageServiceImpl implements ArchivageService {
     public List<ArchivageDocument> getAllArchivedDocuments() {
         return archivageRepo.findAll();
     }
+
+    @Override
+    public byte[] downloadArchivedDocument(Long documentId) {
+        return archivageRepo.findAll().stream()
+                .filter(a -> a.getDocument().getId().equals(documentId))
+                .findFirst()
+                .map(a -> a.getDocument().getFichier())
+                .orElseThrow(() -> new RuntimeException("Document archivé introuvable"));
+    }
 }
