@@ -8,6 +8,7 @@ public interface ArchivageService {
     void archiverDocumentsContrat(List<Document> documents);
     List<ArchivageDocument> getAllArchivedDocuments();
     byte[] downloadArchivedDocument(Long documentId);
+    Document getDocumentById(Long documentId);
 
 }
 

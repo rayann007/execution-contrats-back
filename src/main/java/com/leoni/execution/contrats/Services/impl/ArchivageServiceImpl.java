@@ -41,4 +41,14 @@ public class ArchivageServiceImpl implements ArchivageService {
                 .map(a -> a.getDocument().getFichier())
                 .orElseThrow(() -> new RuntimeException("Document archivé introuvable"));
     }
+
+    @Override
+    public Document getDocumentById(Long documentId) {
+        ArchivageDocument archive = archivageRepo.findByDocument_Id(documentId)
+                .orElseThrow(() -> new RuntimeException("Document archivé non trouvé avec l'id " + documentId));
+        return archive.getDocument();
+    }
+
+
+
 }

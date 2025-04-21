@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.leoni.execution.contrats.Models.Document;
 
 import java.util.List;
 
@@ -25,12 +26,17 @@ public class ArchivageController {
     }
     @GetMapping("/download/{documentId}")
     public ResponseEntity<byte[]> downloadArchivedDocument(@PathVariable Long documentId) {
+        // Récupération du fichier depuis le service
         byte[] fichier = archivageService.downloadArchivedDocument(documentId);
 
+        // Récupération du document pour avoir son nom
+        Document document = archivageService.getDocumentById(documentId);
+
+        // Préparation des headers de téléchargement
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDisposition(ContentDisposition.attachment()
-                .filename("document_archivé_" + documentId + ".pdf")
+                .filename(document.getNomFichier()) // 👈 nom réel du fichier
                 .build());
 
         return new ResponseEntity<>(fichier, headers, HttpStatus.OK);
