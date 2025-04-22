@@ -2,6 +2,7 @@ package com.leoni.execution.contrats.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -18,8 +19,14 @@ public class DelaiContractuel {
     @Column(name = "joursRetard")
     private Integer joursRetard;
 
-    @Column(name = "penaliteAppliquee")
-    private Boolean penaliteAppliquee;
+    @Column(name = "montantPenaliteJournalier")
+    private Float montantPenaliteJournalier;
+
+    @Column(name = "penalitePayee")
+    private Boolean penalitePayee = false;
+
+    @Column(name = "montantTotal")
+    private Float montantTotal;
 
     @Column(name = "commentaire", columnDefinition = "TEXT")
     private String commentaire;
@@ -29,7 +36,7 @@ public class DelaiContractuel {
     @JoinColumn(name = "contrat_id")
     private Contrat contrat;
 
-    // Getters and Setters
+    // Getters & Setters
 
     public Long getId() {
         return id;
@@ -55,12 +62,28 @@ public class DelaiContractuel {
         this.joursRetard = joursRetard;
     }
 
-    public Boolean getPenaliteAppliquee() {
-        return penaliteAppliquee;
+    public Float getMontantPenaliteJournalier() {
+        return montantPenaliteJournalier;
     }
 
-    public void setPenaliteAppliquee(Boolean penaliteAppliquee) {
-        this.penaliteAppliquee = penaliteAppliquee;
+    public void setMontantPenaliteJournalier(Float montantPenaliteJournalier) {
+        this.montantPenaliteJournalier = montantPenaliteJournalier;
+    }
+
+    public Boolean getPenalitePayee() {
+        return penalitePayee;
+    }
+
+    public void setPenalitePayee(Boolean penalitePayee) {
+        this.penalitePayee = penalitePayee;
+    }
+
+    public Float getMontantTotal() {
+        return montantTotal;
+    }
+
+    public void setMontantTotal(Float montantTotal) {
+        this.montantTotal = montantTotal;
     }
 
     public String getCommentaire() {
