@@ -48,6 +48,13 @@ public interface ContratRepository extends JpaRepository<Contrat, Long> {
     List<Contrat> findContratsActifsAujourdHui(@Param("today") LocalDate today);
 
 
+    @Query("SELECT c FROM Contrat c WHERE " +
+            "((c.type = com.leoni.execution.contrats.Models.TypeContrat.Travaux AND c.dateFin = :datePlus7) " +
+            "OR (c.type = com.leoni.execution.contrats.Models.TypeContrat.Continue AND c.dateFin = :datePlus60))")
+    List<Contrat> findContratsAvecNotificationDates(
+            @Param("datePlus7") LocalDate datePlus7,
+            @Param("datePlus60") LocalDate datePlus60
+    );
 
 
 
