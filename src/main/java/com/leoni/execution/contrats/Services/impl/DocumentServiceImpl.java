@@ -2,6 +2,7 @@ package com.leoni.execution.contrats.Services.impl;
 
 import com.leoni.execution.contrats.Models.Contrat;
 import com.leoni.execution.contrats.Models.Document;
+import com.leoni.execution.contrats.Models.DocumentDTO;
 import com.leoni.execution.contrats.Repositories.ContratRepository;
 import com.leoni.execution.contrats.Repositories.DocumentRepository;
 import com.leoni.execution.contrats.Services.DocumentService;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -94,6 +96,27 @@ public class DocumentServiceImpl implements DocumentService {
             zos.close();
             return baos.toByteArray();
         }
+
+    @Override
+    public List<Document> findByPersonnelId(Long personnelId) {
+        List<Contrat> contrats = contratRepository.findByPersonnelId(personnelId);
+        List<Long> contratIds = contrats.stream()
+                .map(Contrat::getId)
+                .collect(Collectors.toList());
+        return documentRepository.findByContratIdIn(contratIds);
     }
+    @Override
+    public List<DocumentDTO> findSimpleByPersonnelId(Long personnelId) {
+        List<Contrat> contrats = contratRepository.findByPersonnelId(personnelId);
+        List<Long> ids = contrats.stream().map(Contrat::getId).toList();
+
+        return documentRepository.findByContratIdIn(ids).stream()
+                .map(doc -> new DocumentDTO(doc.getId(), doc.getNomFichier(), doc.getDateCreation()))
+                .toList();
+    }
+
+
+
+}
 
 

@@ -1,5 +1,6 @@
 package com.leoni.execution.contrats.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -52,8 +53,19 @@ public class Contrat {
     // Plusieurs emails dédiés séparés par virgules, ou autre format texte
     @Column(name = "emailsPersonnesDediees", columnDefinition = "TEXT")
     private String emailsPersonnesDediees;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "personnel_id")
+    private Personnel personnel;
 
-    // === Getters et Setters générés automatiquement ===
+    public Personnel getPersonnel() {
+        return personnel;
+    }
+
+    public void setPersonnel(Personnel personnel) {
+        this.personnel = personnel;
+    }
+// === Getters et Setters générés automatiquement ===
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

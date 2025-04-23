@@ -1,6 +1,7 @@
 package com.leoni.execution.contrats.Controllers;
 
 import com.leoni.execution.contrats.Models.Document;
+import com.leoni.execution.contrats.Models.DocumentDTO;
 import com.leoni.execution.contrats.Services.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -79,8 +80,16 @@ public class DocumentController {
         return new ResponseEntity<>(zipData, headers, HttpStatus.OK);
     }
 
+    @GetMapping("/documents/personnel/{personnelId}")
+    public List<Document> getDocumentsByPersonnel(@PathVariable Long personnelId) {
+        return documentService.findByPersonnelId(personnelId);
+    }
 
 
+    @GetMapping("/simple/personnel/{personnelId}")
+    public List<DocumentDTO> getSimpleDocsByPersonnel(@PathVariable Long personnelId) {
+        return documentService.findSimpleByPersonnelId(personnelId);
+    }
 
 
 }

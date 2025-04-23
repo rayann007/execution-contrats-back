@@ -8,4 +8,7 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     List<Document> findByContrat_Id(Long contratId);
 
+    List<Document> findByContratIdIn(List<Long> contratIds);
+
+
 }

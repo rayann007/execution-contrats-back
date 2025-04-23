@@ -55,20 +55,21 @@ public interface ContratRepository extends JpaRepository<Contrat, Long> {
             @Param("datePlus7") LocalDate datePlus7,
             @Param("datePlus60") LocalDate datePlus60
     );
-
-
-
-
-
-
-
-
-
-
-
-
-
+    List<Contrat> findByPersonnelId(Long personnelId);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
