@@ -17,7 +17,10 @@ public class Evaluation {
 
     private LocalDate dateEvaluation;
 
-    private String couleurIndicateur; // 'Vert', 'Jaune', 'Orange', 'Rouge'
+    @Enumerated(EnumType.STRING)
+    @Column(name = "couleurIndicateur")
+    private CouleurIndicateur couleurIndicateur;
+    // 'Vert', 'Jaune', 'Orange', 'Rouge'
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id")
@@ -41,8 +44,13 @@ public class Evaluation {
     public LocalDate getDateEvaluation() { return dateEvaluation; }
     public void setDateEvaluation(LocalDate dateEvaluation) { this.dateEvaluation = dateEvaluation; }
 
-    public String getCouleurIndicateur() { return couleurIndicateur; }
-    public void setCouleurIndicateur(String couleurIndicateur) { this.couleurIndicateur = couleurIndicateur; }
+    public CouleurIndicateur getCouleurIndicateur() {
+        return couleurIndicateur;
+    }
+
+    public void setCouleurIndicateur(CouleurIndicateur couleurIndicateur) {
+        this.couleurIndicateur = couleurIndicateur;
+    }
 
     public Document getDocument() { return document; }
     public void setDocument(Document document) { this.document = document; }

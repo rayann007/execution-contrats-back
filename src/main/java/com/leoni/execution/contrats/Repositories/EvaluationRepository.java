@@ -1,5 +1,6 @@
 package com.leoni.execution.contrats.Repositories;
 
+import com.leoni.execution.contrats.Models.CouleurIndicateur;
 import com.leoni.execution.contrats.Models.Evaluation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,5 +14,7 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
 
     List<Evaluation> findByPrestataireId(Long prestataireId);
 
-    List<Evaluation> findByCouleurIndicateur(String couleur);
+    // ✅ utiliser l'enum directement
+    List<Evaluation> findByCouleurIndicateur(CouleurIndicateur couleur);
+
 }

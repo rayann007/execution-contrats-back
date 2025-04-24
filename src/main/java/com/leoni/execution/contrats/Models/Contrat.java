@@ -1,12 +1,15 @@
 package com.leoni.execution.contrats.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 // Cette annotation indique que cette classe est une entité JPA
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
+
 // On peut indiquer explicitement le nom de la table en base
 @Table(name = "contrat")
 public class Contrat {
