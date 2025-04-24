@@ -16,12 +16,23 @@ public class EmailServiceImpl implements EmailService {
     public void envoyerMailPersonnesDediees(String emails, String sujet, String contenu) {
         if (emails == null || emails.isBlank()) return;
 
+        // 📬 Adresses à mettre en copie pour le service juridique
+        String[] copieJuridique = {
+                "moncef.touati@leoni.com",
+                "MOHAMED-ALI.HAGUI@leoni.com"
+        };
+
         for (String email : emails.split(",")) {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(email.trim());
-            message.setSubject(sujet);
-            message.setText(contenu);
-            mailSender.send(message);
+            String destinataire = email.trim();
+            if (!destinataire.isBlank()) {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setTo(destinataire);               // Destinataire principal
+                message.setSubject(sujet);                 // Sujet du mail
+                message.setText(contenu);                  // Contenu du mail
+                message.setCc(copieJuridique);             // 📌 Copie aux responsables juridiques
+
+                mailSender.send(message);
+            }
         }
     }
 }

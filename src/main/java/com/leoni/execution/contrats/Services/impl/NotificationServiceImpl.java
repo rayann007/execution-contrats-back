@@ -9,6 +9,7 @@ import com.leoni.execution.contrats.Services.EmailService;
 import com.leoni.execution.contrats.Services.NotificationService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class NotificationServiceImpl implements NotificationService {
      */
     @Override
     @Transactional
+    @Scheduled(cron = "0 0 8 * * *") // Tous les jours à 08:00
     public void envoyerNotificationsSiDateConcernee() {
         LocalDate today = LocalDate.now();
 
