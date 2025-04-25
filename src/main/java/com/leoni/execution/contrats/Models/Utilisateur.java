@@ -1,3 +1,4 @@
+
 package com.leoni.execution.contrats.Models;
 
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ public class Utilisateur {
     private String motDePasse;
 
     private String serviceAffectation;
-
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private RoleName role; // ⬅ Nouveau champ
 
