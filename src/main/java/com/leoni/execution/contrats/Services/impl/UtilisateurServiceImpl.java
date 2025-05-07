@@ -32,5 +32,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public void supprimer(Long id) {
         utilisateurRepository.deleteById(id);
+
+    }
+
+    @Override
+    public Utilisateur findByEmail(String email) {
+        return utilisateurRepository.findByEmail(email).orElse(null);
     }
 }

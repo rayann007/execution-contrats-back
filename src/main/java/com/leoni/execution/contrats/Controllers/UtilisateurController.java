@@ -40,4 +40,7 @@ public class UtilisateurController {
         utilisateurService.supprimer(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
 }
