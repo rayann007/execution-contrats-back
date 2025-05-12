@@ -1,7 +1,6 @@
 package com.leoni.execution.contrats.Repositories;
 
 import com.leoni.execution.contrats.Models.Contrat;
-import com.leoni.execution.contrats.Models.Document;
 import com.leoni.execution.contrats.Models.StatutContrat;
 import com.leoni.execution.contrats.Models.TypeContrat;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -46,6 +45,7 @@ public interface ContratRepository extends JpaRepository<Contrat, Long> {
 
     @Query("SELECT c FROM Contrat c WHERE c.dateDebut <= :today AND c.dateFin >= :today")
     List<Contrat> findContratsActifsAujourdHui(@Param("today") LocalDate today);
+    
 
 
     @Query("SELECT c FROM Contrat c WHERE " +
@@ -56,6 +56,8 @@ public interface ContratRepository extends JpaRepository<Contrat, Long> {
             @Param("datePlus60") LocalDate datePlus60
     );
     List<Contrat> findByPersonnelId(Long personnelId);
+
+    long countByDateDebutBeforeAndDateFinAfter(LocalDate now, LocalDate now1);
 }
 
 

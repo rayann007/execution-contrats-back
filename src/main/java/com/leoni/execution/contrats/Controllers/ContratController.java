@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 @RestController // Indique que cette classe est un contrôleur REST (pas une vue HTML)
 @RequestMapping("/api/contrats") // Tous les endpoints commenceront par /api/contrats
@@ -90,6 +90,39 @@ public class ContratController {
     public List<Contrat> filterByType(@RequestParam TypeContrat type) {
         return contratService.findByType(type);
     }
+    @GetMapping("/pourcentage-par-type")
+    public Map<String, String> getPourcentageParType() {
+        List<Contrat> tous = Optional.ofNullable(contratService.getAllContrats())
+                .orElse(Collections.emptyList());
+
+        long total = tous.size();
+
+        Map<String, String> pourcentages = new HashMap<>();
+
+        if (total > 0) {
+            long travaux = tous.stream().filter(c -> c.getType() == TypeContrat.Travaux).count();
+            long prestation = tous.stream().filter(c -> c.getType() == TypeContrat.Prestation).count();
+            long continus = tous.stream().filter(c -> c.getType() == TypeContrat.Continu).count();
+
+            // ✅ Calculs arrondis
+            int pctTravaux = (int) Math.round((travaux * 100.0) / total);
+            int pctPrestation = (int) Math.round((prestation * 100.0) / total);
+            int pctContinus = 100 - pctTravaux - pctPrestation; // Ajustement final
+
+            // ✅ Ajout des résultats
+            pourcentages.put("travaux", pctTravaux + "%");
+            pourcentages.put("prestation", pctPrestation + "%");
+            pourcentages.put("continue", pctContinus + "%");
+        } else {
+            pourcentages.put("travaux", "0%");
+            pourcentages.put("prestation", "0%");
+            pourcentages.put("continue", "0%");
+        }
+
+        return pourcentages;
+    }
+
+
 
     @GetMapping("/filter-by-statut")
     public List<Contrat> filterByStatut(@RequestParam StatutContrat statut) {
@@ -112,11 +145,20 @@ public class ContratController {
     public List<Contrat> getContratsActifsAujourdHui() {
         return contratService.getContratsActifsAujourdHui();
     }
+    @GetMapping("/count-actifs-aujourdhui")
+    public long countContratsActifsAujourdHui() {
+        return contratService.countContratsActifsAujourdHui();
+    }
 
     @GetMapping("/alertes")
     public List<Contrat> getContratsEnAlerte() {
         return contratService.getContratsEnAlerte();
     }
+    @GetMapping("/count-alertes")
+    public long countContratsEnAlerte() {
+        return contratService.getContratsEnAlerte().size();
+    }
+
 
     @PutMapping("/resilier-et-archiver/{id}")
     public ResponseEntity<String> resilierEtArchiver(@PathVariable Long id) {

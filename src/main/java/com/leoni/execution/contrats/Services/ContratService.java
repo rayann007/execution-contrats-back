@@ -3,8 +3,7 @@ package com.leoni.execution.contrats.Services;
 import com.leoni.execution.contrats.Models.Contrat;
 import com.leoni.execution.contrats.Models.StatutContrat;
 import com.leoni.execution.contrats.Models.TypeContrat;
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PostConstruct;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,6 +29,9 @@ public interface ContratService {
     List<Contrat> filtrerContrats(TypeContrat type, StatutContrat statut, LocalDate dateDebut, LocalDate dateFin, String nom);
 
     List<Contrat> getContratsActifsAujourdHui();
+    long countContratsActifsAujourdHui();
+
+
     List<Contrat> getContratsEnAlerte();
 
 
