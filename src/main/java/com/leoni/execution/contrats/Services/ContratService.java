@@ -39,7 +39,7 @@ public interface ContratService {
 
     void resilierContratEtArchiver(Long id);
 
-
+    List<Contrat> getEcheancesDuMois();
 
 
 }

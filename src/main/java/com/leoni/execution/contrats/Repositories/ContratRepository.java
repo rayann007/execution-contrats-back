@@ -58,10 +58,12 @@ public interface ContratRepository extends JpaRepository<Contrat, Long> {
     List<Contrat> findByPersonnelId(Long personnelId);
 
     long countByDateDebutBeforeAndDateFinAfter(LocalDate now, LocalDate now1);
+
+
+    @Query("SELECT c FROM Contrat c WHERE c.dateFin >= :startOfMonth AND c.dateFin <= :endOfMonth")
+    List<Contrat> findContratsByDateFinBetween(@Param("startOfMonth") LocalDate startOfMonth,
+                                               @Param("endOfMonth") LocalDate endOfMonth);
 }
-
-
-
 
 
 

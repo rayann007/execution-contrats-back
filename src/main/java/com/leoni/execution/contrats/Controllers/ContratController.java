@@ -171,7 +171,16 @@ public class ContratController {
     }
 
 
+    @GetMapping("/echeances-mois")
+    public ResponseEntity<?> getEcheancesDuMois() {
+        List<Contrat> contrats = contratService.getEcheancesDuMois();
 
+        if (contrats.isEmpty()) {
+            return ResponseEntity.ok("Aucune échéance ce mois");
+        } else {
+            return ResponseEntity.ok(contrats);
+        }
+    }
 
 
 }
