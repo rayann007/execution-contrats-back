@@ -46,13 +46,18 @@ public class DocumentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteDocument(@PathVariable Long id) {
-        boolean deleted = documentService.deleteById(id);
-        if (deleted) {
-            return ResponseEntity.ok("Document supprimé !");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Document introuvable.");
+        try {
+            boolean deleted = documentService.deleteById(id);
+            if (deleted) {
+                return ResponseEntity.ok("Document supprimé !");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Document introuvable.");
+            }
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
+
     @PutMapping("/{id}/rename")
     public ResponseEntity<String> renameDocument(@PathVariable Long id,
                                                  @RequestParam String newName) {

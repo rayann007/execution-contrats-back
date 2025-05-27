@@ -3,6 +3,7 @@ package com.leoni.execution.contrats.Services.impl;
 import com.leoni.execution.contrats.Models.Contrat;
 import com.leoni.execution.contrats.Models.Document;
 import com.leoni.execution.contrats.Models.DocumentDTO;
+import com.leoni.execution.contrats.Repositories.ArchivageDocumentRepository;
 import com.leoni.execution.contrats.Repositories.ContratRepository;
 import com.leoni.execution.contrats.Repositories.DocumentRepository;
 import com.leoni.execution.contrats.Services.DocumentService;
@@ -54,14 +55,27 @@ public class DocumentServiceImpl implements DocumentService {
         return documentRepository.findByContrat_Id(contratId);
     }
 
+    @Autowired
+    private ArchivageDocumentRepository archivageRepo;
+
     @Override
     public boolean deleteById(Long id) {
-        if (documentRepository.existsById(id)) {
-            documentRepository.deleteById(id);
-            return true;
+        // 1. Récupérer le document
+        Optional<Document> optionalDoc = documentRepository.findById(id);
+        if (optionalDoc.isEmpty()) return false;
+
+        Document doc = optionalDoc.get();
+
+        // 2. Vérifier s'il est archivé
+        if (archivageRepo.existsByDocument(doc)) {
+            throw new IllegalStateException("Impossible de supprimer ce document car il est archivé.");
         }
-        return false;
+
+        // 3. Supprimer si non archivé
+        documentRepository.deleteById(id);
+        return true;
     }
+
 
 
     @Override
