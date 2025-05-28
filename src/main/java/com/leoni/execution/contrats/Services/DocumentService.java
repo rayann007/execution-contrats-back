@@ -18,4 +18,6 @@ public interface DocumentService {
     List<Document> findByPersonnelId(Long personnelId);
     List<DocumentDTO> findSimpleByPersonnelId(Long personnelId);
 
+
+
 }
