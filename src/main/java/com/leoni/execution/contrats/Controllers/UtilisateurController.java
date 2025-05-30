@@ -41,6 +41,17 @@ public class UtilisateurController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Utilisateur> modifier(@PathVariable Long id, @RequestBody Utilisateur utilisateur) {
+        utilisateur.setId(id);
+        return ResponseEntity.ok(utilisateurService.modifier(utilisateur));
+    }
+
+    @PutMapping("/{id}/reset-password")
+    public ResponseEntity<Void> resetPassword(@PathVariable Long id) {
+        utilisateurService.reinitialiserMotDePasse(id);
+        return ResponseEntity.noContent().build();
+    }
 
 
 }
