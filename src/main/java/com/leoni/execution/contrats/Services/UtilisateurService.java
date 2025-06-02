@@ -11,4 +11,8 @@ public interface UtilisateurService {
     List<Utilisateur> listerTous();
     List<Utilisateur> listerParRole(Utilisateur.RoleName role);
     void supprimer(Long id);
+
+    void reinitialiserMotDePasse(Long id);
+
+    Utilisateur modifier(Utilisateur utilisateur);
 }
