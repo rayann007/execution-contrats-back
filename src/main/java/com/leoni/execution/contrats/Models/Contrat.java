@@ -65,6 +65,16 @@ public class Contrat {
         return personnel;
     }
 
+    @Column(name = "prestataire", length = 100)
+    private String prestataire;
+
+    public String getPrestataire() {
+        return prestataire;
+    }
+
+    public void setPrestataire(String prestataire) {
+        this.prestataire = prestataire;
+    }
     public void setPersonnel(Personnel personnel) {
         this.personnel = personnel;
     }
