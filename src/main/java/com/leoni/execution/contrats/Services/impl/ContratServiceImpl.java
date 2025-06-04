@@ -39,23 +39,22 @@ public class ContratServiceImpl implements ContratService {
     }
 
     @Override
-    public Contrat updateContrat(Long id, Contrat updatedContrat) {
-        Contrat existing = contratRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Contrat à modifier introuvable avec l’ID : " + id));
-
-        // Mise à jour des champs
-        existing.setNomContrat(updatedContrat.getNomContrat());
-        existing.setType(updatedContrat.getType());
-        existing.setDateDebut(updatedContrat.getDateDebut());
-        existing.setDateFin(updatedContrat.getDateFin());
-        existing.setStatut(updatedContrat.getStatut());
-        existing.setServiceConcerne(updatedContrat.getServiceConcerne());
-        existing.setResponsableLeoni(updatedContrat.getResponsableLeoni());
-        existing.setEmailResponsable(updatedContrat.getEmailResponsable());
-        existing.setEmailsPersonnesDediees(updatedContrat.getEmailsPersonnesDediees());
-
-        return contratRepository.save(existing);
+    public Contrat updateContrat(Long id, Contrat updated) {
+        return contratRepository.findById(id).map(existing -> {
+            existing.setNomContrat(updated.getNomContrat());
+            existing.setType(updated.getType());
+            existing.setDateDebut(updated.getDateDebut());
+            existing.setDateFin(updated.getDateFin());
+            existing.setStatut(updated.getStatut());
+            existing.setResponsableLeoni(updated.getResponsableLeoni());
+            existing.setEmailResponsable(updated.getEmailResponsable());
+            existing.setEmailsPersonnesDediees(updated.getEmailsPersonnesDediees());
+            existing.setPrestataire(updated.getPrestataire()); // ⚠️ Cette ligne est nécessaire
+            existing.setServiceConcerne(updated.getServiceConcerne());
+            return contratRepository.save(existing);
+        }).orElseThrow(() -> new RuntimeException("Contrat non trouvé avec id : " + id));
     }
+
 
     @Override
     public void deleteContrat(Long id) {
