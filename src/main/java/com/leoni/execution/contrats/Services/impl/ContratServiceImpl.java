@@ -33,6 +33,15 @@ public class ContratServiceImpl implements ContratService {
                 .orElseThrow(() -> new EntityNotFoundException("Contrat introuvable avec l’ID : " + id));
     }
 
+    public long countContratsContinusEnAlerte() {
+        LocalDate aujourdHui = LocalDate.now();
+        List<Contrat> contrats = contratRepository.findByType(TypeContrat.Continu);
+
+        return contrats.stream()
+                .filter(c -> c.getDateFin() != null && c.getDateFin().minusMonths(2).isBefore(aujourdHui))
+                .count();
+    }
+
     @Override
     public Contrat createContrat(Contrat contrat) {
         return contratRepository.save(contrat);
@@ -193,4 +202,12 @@ public class ContratServiceImpl implements ContratService {
 
         return contratRepository.findContratsByDateFinBetween(startOfMonth, endOfMonth);
     }
+    public List<Contrat> getContratsContinusAvecEcheanceCeMois() {
+        YearMonth moisActuel = YearMonth.now();
+        LocalDate debutMois = moisActuel.atDay(1);
+        LocalDate finMois = moisActuel.atEndOfMonth();
+
+        return contratRepository.findByTypeAndDateFinBetween(TypeContrat.Continu, debutMois, finMois);
+    }
+
 }

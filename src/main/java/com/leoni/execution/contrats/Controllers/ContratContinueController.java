@@ -1,6 +1,7 @@
 package com.leoni.execution.contrats.Controllers;
 
 import com.leoni.execution.contrats.Models.ContratContinue;
+import com.leoni.execution.contrats.Models.typeService;
 import com.leoni.execution.contrats.Services.ContratContinueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ public class ContratContinueController {
         return contratContinueService.getById(id);
     }
 
+
+
     @PostMapping
     public ContratContinue create(@RequestBody ContratContinue contratContinue) {
         return contratContinueService.create(contratContinue);
@@ -32,6 +35,11 @@ public class ContratContinueController {
     @PutMapping("/{id}")
     public ContratContinue update(@PathVariable Long id, @RequestBody ContratContinue contratContinue) {
         return contratContinueService.update(id, contratContinue);
+    }
+
+    @GetMapping("/type/{type}")
+    public List<ContratContinue> getByType(@PathVariable("type") typeService type) {
+        return contratContinueService.getByTypeService(type);
     }
 
     @DeleteMapping("/{id}")

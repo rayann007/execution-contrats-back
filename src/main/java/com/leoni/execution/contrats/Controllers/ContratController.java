@@ -170,6 +170,11 @@ public class ContratController {
         }
     }
 
+    @GetMapping("/count-continus-alertes")
+    public long countContratsContinusEnAlerte() {
+        return contratService.countContratsContinusEnAlerte();
+    }
+
 
     @GetMapping("/echeances-mois")
     public ResponseEntity<?> getEcheancesDuMois() {
@@ -181,6 +186,17 @@ public class ContratController {
             return ResponseEntity.ok(contrats);
         }
     }
+    @GetMapping("/echeances-mois-continus")
+    public ResponseEntity<?> getContratsContinusEcheanceMois() {
+        List<Contrat> contrats = contratService.getContratsContinusAvecEcheanceCeMois();
+
+        if (contrats.isEmpty()) {
+            return ResponseEntity.ok("Aucun contrat continu avec échéance ce mois");
+        } else {
+            return ResponseEntity.ok(contrats);
+        }
+    }
+
 
 
 }

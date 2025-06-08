@@ -42,4 +42,7 @@ public interface ContratService {
     List<Contrat> getEcheancesDuMois();
 
 
+    long countContratsContinusEnAlerte();
+
+    List<Contrat> getContratsContinusAvecEcheanceCeMois();
 }

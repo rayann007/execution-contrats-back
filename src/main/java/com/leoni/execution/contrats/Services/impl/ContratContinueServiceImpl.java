@@ -1,6 +1,7 @@
 package com.leoni.execution.contrats.Services;
 
 import com.leoni.execution.contrats.Models.ContratContinue;
+import com.leoni.execution.contrats.Models.typeService;
 import com.leoni.execution.contrats.Repositories.ContratContinueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,10 @@ public class ContratContinueServiceImpl implements ContratContinueService {
     @Override
     public ContratContinue getById(Long id) {
         return contratContinueRepository.findById(id).orElse(null);
+    }
+
+    public List<ContratContinue> getByTypeService(typeService type) {
+        return contratContinueRepository.findByTypeService(type);
     }
 
     @Override

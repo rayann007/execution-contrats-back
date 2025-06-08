@@ -63,6 +63,8 @@ public interface ContratRepository extends JpaRepository<Contrat, Long> {
     @Query("SELECT c FROM Contrat c WHERE c.dateFin >= :startOfMonth AND c.dateFin <= :endOfMonth")
     List<Contrat> findContratsByDateFinBetween(@Param("startOfMonth") LocalDate startOfMonth,
                                                @Param("endOfMonth") LocalDate endOfMonth);
+
+    List<Contrat> findByTypeAndDateFinBetween(TypeContrat typeContrat, LocalDate debutMois, LocalDate finMois);
 }
 
 
