@@ -1,8 +1,9 @@
-package com.leoni.execution.contrats.Services;
+package com.leoni.execution.contrats.Services.impl;
 
 import com.leoni.execution.contrats.Models.ContratContinue;
 import com.leoni.execution.contrats.Models.typeService;
 import com.leoni.execution.contrats.Repositories.ContratContinueRepository;
+import com.leoni.execution.contrats.Services.ContratContinueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
