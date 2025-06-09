@@ -34,13 +34,15 @@ public class ContratServiceImpl implements ContratService {
     }
 
     public long countContratsContinusEnAlerte() {
-        LocalDate aujourdHui = LocalDate.now();
-        List<Contrat> contrats = contratRepository.findByType(TypeContrat.Continu);
+        LocalDate today = LocalDate.now();
 
-        return contrats.stream()
-                .filter(c -> c.getDateFin() != null && c.getDateFin().minusMonths(2).isBefore(aujourdHui))
+        return contratRepository.findByType(TypeContrat.Continu).stream()
+                .filter(c -> c.getDateFin() != null &&
+                        !c.getDateFin().isBefore(today) && // date >= today
+                        c.getDateFin().isBefore(today.plusMonths(2))) // date < today + 2 months
                 .count();
     }
+
 
     @Override
     public Contrat createContrat(Contrat contrat) {
@@ -153,6 +155,22 @@ public class ContratServiceImpl implements ContratService {
 
         return alertes;
     }
+
+    public List<Contrat> getContratsContinusEnAlerte() {
+        LocalDate today = LocalDate.now();
+        List<Contrat> alertes = new ArrayList<>();
+
+        for (Contrat c : contratRepository.findByType(TypeContrat.Continu)) {
+            if (c.getDateFin() != null &&
+                    !c.getDateFin().isBefore(today) &&
+                    c.getDateFin().isBefore(today.plusMonths(2))) {
+                alertes.add(c);
+            }
+        }
+
+        return alertes;
+    }
+
 
     @Autowired
     private DocumentRepository documentRepository;

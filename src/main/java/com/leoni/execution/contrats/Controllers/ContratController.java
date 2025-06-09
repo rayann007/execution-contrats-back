@@ -183,15 +183,15 @@ public class ContratController {
     }
 
     @GetMapping("/echeances-mois-continus")
-    public ResponseEntity<?> getContratsContinusEcheanceMois() {
-        List<Contrat> contrats = contratService.getContratsContinusAvecEcheanceCeMois();
-
-        if (contrats.isEmpty()) {
-            return ResponseEntity.ok("Aucun contrat continu avec échéance ce mois");
-        } else {
-            return ResponseEntity.ok(contrats);
-        }
+    public List<Contrat> getContratsContinusEcheanceCeMois() {
+        return contratService.getContratsContinusAvecEcheanceCeMois();
     }
+
+    @GetMapping("/alertes-continus")
+    public List<Contrat> getContratsContinusEnAlerte() {
+        return contratService.getContratsContinusEnAlerte();
+    }
+
 
 
 
