@@ -177,15 +177,11 @@ public class ContratController {
 
 
     @GetMapping("/echeances-mois")
-    public ResponseEntity<?> getEcheancesDuMois() {
+    public ResponseEntity<List<Contrat>> getEcheancesDuMois() {
         List<Contrat> contrats = contratService.getEcheancesDuMois();
-
-        if (contrats.isEmpty()) {
-            return ResponseEntity.ok("Aucune échéance ce mois");
-        } else {
-            return ResponseEntity.ok(contrats);
-        }
+        return ResponseEntity.ok(contrats);  // ✅ retourne toujours un tableau (même vide)
     }
+
     @GetMapping("/echeances-mois-continus")
     public ResponseEntity<?> getContratsContinusEcheanceMois() {
         List<Contrat> contrats = contratService.getContratsContinusAvecEcheanceCeMois();
