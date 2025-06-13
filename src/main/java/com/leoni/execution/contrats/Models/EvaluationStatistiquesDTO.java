@@ -1,4 +1,4 @@
-package com.leoni.execution.contrats.DTO;
+package com.leoni.execution.contrats.Models;
 
 public class EvaluationStatistiquesDTO {
 
