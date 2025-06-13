@@ -7,9 +7,9 @@ public class EvaluationStatistiquesDTO {
     private long delaisNonRespectes;
 
     private long delaisVerts;
-    private long delaisJaunes;
     private long delaisOranges;
     private long delaisRouges;
+    private long delaisGris;
 
     private String tauxRespect;
 
@@ -46,14 +46,6 @@ public class EvaluationStatistiquesDTO {
         this.delaisVerts = delaisVerts;
     }
 
-    public long getDelaisJaunes() {
-        return delaisJaunes;
-    }
-
-    public void setDelaisJaunes(long delaisJaunes) {
-        this.delaisJaunes = delaisJaunes;
-    }
-
     public long getDelaisOranges() {
         return delaisOranges;
     }
@@ -68,6 +60,14 @@ public class EvaluationStatistiquesDTO {
 
     public void setDelaisRouges(long delaisRouges) {
         this.delaisRouges = delaisRouges;
+    }
+
+    public long getDelaisGris() {
+        return delaisGris;
+    }
+
+    public void setDelaisGris(long delaisGris) {
+        this.delaisGris = delaisGris;
     }
 
     public String getTauxRespect() {

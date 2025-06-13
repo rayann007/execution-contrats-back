@@ -25,21 +25,23 @@ public class EvaluationServiceImpl implements EvaluationService {
         long total = evaluations.size();
 
         long verts = evaluations.stream().filter(e -> CouleurIndicateur.Vert.equals(e.getCouleurIndicateur())).count();
-        long jaunes = evaluations.stream().filter(e -> CouleurIndicateur.Jaune.equals(e.getCouleurIndicateur())).count();
         long oranges = evaluations.stream().filter(e -> CouleurIndicateur.Orange.equals(e.getCouleurIndicateur())).count();
         long rouges = evaluations.stream().filter(e -> CouleurIndicateur.Rouge.equals(e.getCouleurIndicateur())).count();
+        long gris = evaluations.stream().filter(e -> CouleurIndicateur.Gris.equals(e.getCouleurIndicateur())).count();
 
         EvaluationStatistiquesDTO dto = new EvaluationStatistiquesDTO();
         dto.setTotalDelais(total);
         dto.setDelaisVerts(verts);
-        dto.setDelaisJaunes(jaunes);
         dto.setDelaisOranges(oranges);
         dto.setDelaisRouges(rouges);
+        dto.setDelaisGris(gris);
 
-        long respectes = verts; // On considère que Vert = respecté
+        long respectes = verts; // Vert uniquement = respecté
         dto.setDelaisRespectes(respectes);
         dto.setDelaisNonRespectes(total - respectes);
-        dto.setTauxRespect(total > 0 ? (respectes * 100 / total) + "%" : "0%");
+
+        double taux = (total > 0) ? ((double) respectes * 100 / total) : 0;
+        dto.setTauxRespect(String.format("%.2f%%", taux));
 
         return dto;
     }
@@ -53,7 +55,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         LocalDate debut = contrat.getDateDebut();
         LocalDate fin = contrat.getDateFin();
 
-        if (today.isAfter(fin)) return CouleurIndicateur.Rouge;
+        if (today.isAfter(fin)) return CouleurIndicateur.Gris;
 
         long total = ChronoUnit.DAYS.between(debut, fin);
         long restant = ChronoUnit.DAYS.between(today, fin);
@@ -62,9 +64,9 @@ public class EvaluationServiceImpl implements EvaluationService {
 
         double ratio = (double) restant / total;
 
-        if (ratio > 0.5) return CouleurIndicateur.Vert;
-        if (ratio > 0.2) return CouleurIndicateur.Jaune;
-        return CouleurIndicateur.Orange;
+        if (ratio > 0.7) return CouleurIndicateur.Vert;
+        if (ratio > 0.3) return CouleurIndicateur.Orange;
+        return CouleurIndicateur.Rouge;
     }
 
     @Override
@@ -77,5 +79,4 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Evaluation> findByCouleur(CouleurIndicateur couleur) {
         return evaluationRepository.findByCouleurIndicateur(couleur);
     }
-
 }
