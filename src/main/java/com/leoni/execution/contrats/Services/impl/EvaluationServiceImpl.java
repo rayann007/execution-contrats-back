@@ -1,9 +1,10 @@
 package com.leoni.execution.contrats.Services.impl;
 
-import com.leoni.execution.contrats.DTO.EvaluationStatistiquesDTO;
+
 import com.leoni.execution.contrats.Models.Contrat;
 import com.leoni.execution.contrats.Models.CouleurIndicateur;
 import com.leoni.execution.contrats.Models.Evaluation;
+import com.leoni.execution.contrats.Models.EvaluationStatistiquesDTO;
 import com.leoni.execution.contrats.Repositories.EvaluationRepository;
 import com.leoni.execution.contrats.Services.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
