@@ -28,14 +28,14 @@ public class EvaluationServiceImpl implements EvaluationService {
         long verts = evaluations.stream().filter(e -> CouleurIndicateur.Vert.equals(e.getCouleurIndicateur())).count();
         long oranges = evaluations.stream().filter(e -> CouleurIndicateur.Orange.equals(e.getCouleurIndicateur())).count();
         long rouges = evaluations.stream().filter(e -> CouleurIndicateur.Rouge.equals(e.getCouleurIndicateur())).count();
-        long gris = evaluations.stream().filter(e -> CouleurIndicateur.Gris.equals(e.getCouleurIndicateur())).count();
+
 
         EvaluationStatistiquesDTO dto = new EvaluationStatistiquesDTO();
         dto.setTotalDelais(total);
         dto.setDelaisVerts(verts);
         dto.setDelaisOranges(oranges);
         dto.setDelaisRouges(rouges);
-        dto.setDelaisGris(gris);
+
 
         long respectes = verts; // Vert uniquement = respecté
         dto.setDelaisRespectes(respectes);
@@ -49,19 +49,19 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     private CouleurIndicateur calculerCouleur(Contrat contrat) {
         if (contrat == null || contrat.getDateDebut() == null || contrat.getDateFin() == null) {
-            return CouleurIndicateur.Gris;
+            return CouleurIndicateur.Vert;
         }
 
         LocalDate today = LocalDate.now();
         LocalDate debut = contrat.getDateDebut();
         LocalDate fin = contrat.getDateFin();
 
-        if (today.isAfter(fin)) return CouleurIndicateur.Gris;
+
 
         long total = ChronoUnit.DAYS.between(debut, fin);
         long restant = ChronoUnit.DAYS.between(today, fin);
 
-        if (total <= 0) return CouleurIndicateur.Gris;
+
 
         double ratio = (double) restant / total;
 
@@ -80,4 +80,8 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Evaluation> findByCouleur(CouleurIndicateur couleur) {
         return evaluationRepository.findByCouleurIndicateur(couleur);
     }
+    public List<Evaluation> findByContratId(Long contratId) {
+        return evaluationRepository.findByContratId(contratId);
+    }
+
 }

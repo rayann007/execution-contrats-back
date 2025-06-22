@@ -78,3 +78,4 @@ public class EvaluationStatistiquesDTO {
         this.tauxRespect = tauxRespect;
     }
 }
+

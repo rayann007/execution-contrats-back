@@ -61,6 +61,14 @@ public class Contrat {
     @JoinColumn(name = "personnel_id")
     private Personnel personnel;
 
+    public Contrat(Long id) {
+        this.id = id;
+    }
+    public Contrat() {
+
+    }
+
+
     public Personnel getPersonnel() {
         return personnel;
     }

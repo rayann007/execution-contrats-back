@@ -17,4 +17,5 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
     // ✅ utiliser l'enum directement
     List<Evaluation> findByCouleurIndicateur(CouleurIndicateur couleur);
 
+
 }

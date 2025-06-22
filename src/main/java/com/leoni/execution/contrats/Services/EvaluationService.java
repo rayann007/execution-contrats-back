@@ -13,4 +13,5 @@ public interface EvaluationService {
 
     List<Evaluation> findByCouleur(CouleurIndicateur couleur);
 
+    List<Evaluation> findByContratId(Long contratId);
 }
